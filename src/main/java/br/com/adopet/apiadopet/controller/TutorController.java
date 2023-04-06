@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,9 @@ public class TutorController {
 	
 	@GetMapping
 	public ResponseEntity<Page<DadosListagemTutor>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao){
+		if(tutorRepository.findAll().isEmpty()) {
+			throw new DomainAdoPetException("Nao encontrado");
+		}
 		var page = tutorRepository.findAll(paginacao).map(DadosListagemTutor::new);
 		return ResponseEntity.ok(page);
 	}
@@ -57,7 +61,7 @@ public class TutorController {
 	public ResponseEntity<DadosDetalhamentoTutor> listarPorid(@PathVariable Long id){
 		var tutorOpcional = tutorRepository.findById(id);
 		if(tutorOpcional.isEmpty()) {
-			throw new DomainAdoPetException("Não existe esse tutor");
+			throw new DomainAdoPetException("Nao encontrado");
 		}
 		var tutor = tutorOpcional.get();
 		return ResponseEntity.ok().body(new DadosDetalhamentoTutor(tutor));
@@ -71,22 +75,48 @@ public class TutorController {
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<String> atualizar(@RequestBody @Valid DadosAtualizacaoTutor dados, @PathVariable Long id){
+	@Transactional
+	public ResponseEntity<DadosDetalhamentoTutor> atualizar(@RequestBody @Valid DadosAtualizacaoTutor dados, @PathVariable Long id){
+		var tutorOpcional = tutorRepository.findById(id);
+		if(tutorOpcional.isEmpty()) {
+			throw new DomainAdoPetException("Não existe esse tutor");
+		}
+		
+		var tutor = tutorOpcional.get();
+		
+		if(dados.nome() != null) {
+			tutor.setNome(dados.nome());
+		}
+		
+		if(dados.email() != null ){
+			tutor.setEmail(dados.email());
+		}
+		
+		if(dados.senha() != null) {
+			var senhaCriptografada = passwordEncoder.encode(dados.senha());
+			tutor.setSenha(senhaCriptografada);
+		}
+		
+		tutorRepository.save(tutor);
+		return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
+		
+	}
+	
+	@PutMapping
+	@Transactional
+	public ResponseEntity<DadosDetalhamentoTutor> autalizarTudo(@RequestBody @Valid DadosAtualizacaoTutor dados, @PathVariable Long id){
 		var tutorOpcional = tutorRepository.findById(id);
 		if(tutorOpcional.isEmpty()) {
 			throw new DomainAdoPetException("Não existe esse tutor");
 		}
 		var tutor = tutorOpcional.get();
-		tutor.setNome(dados.nome());
-		if(dados.senha() != null || dados.email() != null ) {
-			tutor.setEmail(dados.email());
-			var senhaCriptografada = passwordEncoder.encode(dados.senha());
-			tutor.setSenha(senhaCriptografada);
-		}
-		tutorRepository.save(tutor);
-		return ResponseEntity.ok().build();
 		
+		tutor.setNome(dados.nome());
+		tutor.setEmail(dados.email());
+		tutor.setSenha(passwordEncoder.encode(dados.senha()));
+		tutorRepository.save(tutor);
+		
+		return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
 	}
-	
 
 }
