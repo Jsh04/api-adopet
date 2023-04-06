@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.adopet.apiadopet.domain.Pet;
 import br.com.adopet.apiadopet.domain.abrigo.Abrigo;
 import br.com.adopet.apiadopet.dto.DadosCadastroAbrigo;
 import br.com.adopet.apiadopet.dto.DadosDetalhamentoAbrigo;
-import br.com.adopet.apiadopet.dto.DadosDetalhamentoPet;
 import br.com.adopet.apiadopet.repository.AbrigoRepository;
 import jakarta.validation.Valid;
 

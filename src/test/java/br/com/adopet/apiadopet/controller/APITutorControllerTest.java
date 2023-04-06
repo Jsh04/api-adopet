@@ -1,4 +1,4 @@
-package br.com.adopet.apiadopet;
+package br.com.adopet.apiadopet.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -69,7 +69,7 @@ public class TutorController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity deletar(@PathVariable Long id) {
+	public ResponseEntity<String> deletar(@PathVariable Long id) {
 		tutorRepository.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}

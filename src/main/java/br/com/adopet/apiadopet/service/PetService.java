@@ -7,7 +7,6 @@ import br.com.adopet.apiadopet.domain.Pet;
 import br.com.adopet.apiadopet.dto.DadoCadastroPet;
 import br.com.adopet.apiadopet.exception.DomainAdoPetException;
 import br.com.adopet.apiadopet.repository.AbrigoRepository;
-import jakarta.validation.Valid;
 
 @Service
 public class PetService {
@@ -16,7 +15,7 @@ public class PetService {
 	private AbrigoRepository abrigoRepository;
 	
 
-	public Pet cadastrarPet(DadoCadastroPet dados) {
+	public Pet relacionarPetComAbrigo(DadoCadastroPet dados) {
 		var abrigoOptional = abrigoRepository.findById(dados.abrigoId());
 		if(abrigoOptional.isEmpty()) {
 			throw new DomainAdoPetException("Não encontrado");

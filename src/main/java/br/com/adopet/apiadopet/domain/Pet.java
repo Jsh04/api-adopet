@@ -1,9 +1,5 @@
 package br.com.adopet.apiadopet.domain;
 
-import java.util.Optional;
-
-import org.hibernate.mapping.Join;
-
 import br.com.adopet.apiadopet.domain.abrigo.Abrigo;
 import br.com.adopet.apiadopet.dto.DadoCadastroPet;
 import jakarta.persistence.CascadeType;
@@ -11,7 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
