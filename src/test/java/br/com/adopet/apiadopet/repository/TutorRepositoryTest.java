@@ -12,7 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import br.com.adopet.apiadopet.domain.Tutor;
+import br.com.adopet.apiadopet.domain.tutor.Tutor;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -34,7 +34,7 @@ class TutorRepositoryTest {
 	}
 	
 	private void cadastrarTutor() {
-		var tutor = new Tutor(null, "Silvio", "josesilvio@email.com", "1234");
+		var tutor = new Tutor(null, "Silvio", "josesilvio@email.com", "1234", null);
 		em.persist(tutor);
 	}
 	

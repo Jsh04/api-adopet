@@ -1,12 +1,10 @@
-package br.com.adopet.apiadopet.domain.abrigo;
+package br.com.adopet.apiadopet.domain.tutor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.adopet.apiadopet.domain.Endereco;
-import br.com.adopet.apiadopet.domain.pet.Pet;
+import br.com.adopet.apiadopet.domain.adocao.Adocao;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,23 +22,27 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "TB_ABRIGO")
-public class Abrigo {
-
+@Table(name = "TB_TUTOR")
+public class Tutor {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String nome;
 	
-	@Embedded
-	private Endereco endereco;
+	private String email;
+	
+	private String senha;
 
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST,mappedBy = "abrigo")
-	private List<Pet> pets = new ArrayList<>();
- 
-	public Abrigo(DadosCadastroAbrigo dados) {
-		this.nome = dados.nome();
-		this.endereco = new Endereco(dados.endereco());
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "tutor")
+	private List<Adocao> adocoes = new ArrayList<>();
+	
+	public Tutor(DadosCadastroTutor dados, String senha){
+		this.nome = dados.nome().toUpperCase();
+		this.email = dados.email();
+		this.senha = senha;
 	}
+
+
 }

@@ -1,18 +1,16 @@
-package br.com.adopet.apiadopet.domain.abrigo;
+package br.com.adopet.apiadopet.domain.adocao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.adopet.apiadopet.domain.Endereco;
 import br.com.adopet.apiadopet.domain.pet.Pet;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Embedded;
+import br.com.adopet.apiadopet.domain.tutor.Tutor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,23 +22,32 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "TB_ABRIGO")
-public class Abrigo {
-
+@Table(name = "TB_ADOCAO")
+public class Adocao {
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String nome;
 	
-	@Embedded
-	private Endereco endereco;
-
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST,mappedBy = "abrigo")
-	private List<Pet> pets = new ArrayList<>();
- 
-	public Abrigo(DadosCadastroAbrigo dados) {
+	private String telefone;
+	
+	private String mensagem;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PET_ID")
+	private Pet pet;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TUTOR_ID")
+	private Tutor tutor;
+	
+	public Adocao(DadosCadastroAdocao dados) {
 		this.nome = dados.nome();
-		this.endereco = new Endereco(dados.endereco());
+		this.telefone = dados.telefone();
+		this.mensagem = dados.mensagem();
 	}
+
 }

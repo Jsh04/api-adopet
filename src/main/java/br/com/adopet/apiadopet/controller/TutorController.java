@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.adopet.apiadopet.domain.Tutor;
-import br.com.adopet.apiadopet.dto.DadosAtualizacaoTutor;
-import br.com.adopet.apiadopet.dto.DadosCadastroTutor;
-import br.com.adopet.apiadopet.dto.DadosDetalhamentoTutor;
-import br.com.adopet.apiadopet.dto.DadosListagemTutor;
+import br.com.adopet.apiadopet.domain.tutor.DadosAtualizacaoTutor;
+import br.com.adopet.apiadopet.domain.tutor.DadosCadastroTutor;
+import br.com.adopet.apiadopet.domain.tutor.DadosDetalhamentoTutor;
+import br.com.adopet.apiadopet.domain.tutor.DadosListagemTutor;
+import br.com.adopet.apiadopet.domain.tutor.Tutor;
 import br.com.adopet.apiadopet.exception.DomainAdoPetException;
 import br.com.adopet.apiadopet.repository.TutorRepository;
 import jakarta.validation.Valid;
