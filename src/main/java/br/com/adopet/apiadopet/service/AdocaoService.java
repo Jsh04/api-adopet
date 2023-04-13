@@ -40,5 +40,9 @@ public class AdocaoService {
 		adocaoRepository.save(adocao);
 		return adocao;
 	}
+
+	public void deletarAdocao(Long id) {
+		adocaoRepository.deleteById(id);
+	}
 	
 }
