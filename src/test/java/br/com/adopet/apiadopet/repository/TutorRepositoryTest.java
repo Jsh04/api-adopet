@@ -4,22 +4,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.ActiveProfiles;
 
+import br.com.adopet.apiadopet.domain.tutor.DadosCadastroTutor;
 import br.com.adopet.apiadopet.domain.tutor.Tutor;
 
-@ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@DataJpaTest(showSql = true)
+@DataJpaTest
+@ActiveProfiles("test")
 class TutorRepositoryTest {
 	
-	@Autowired(required = true)
+	@Autowired
 	private TutorRepository tutorRepository;
 
 	@Autowired
@@ -33,11 +33,21 @@ class TutorRepositoryTest {
 		assertThat(tutores).isNotNull();
 	}
 	
-	private void cadastrarTutor() {
-		var tutor = new Tutor(null, "Silvio", "josesilvio@email.com", "1234", null);
-		em.persist(tutor);
+	private Tutor cadastrarTutor() {
+		var tutor = new Tutor(new DadosCadastroTutor("Silvio Henrique", "jose@gmail.com", null), "1234");
+		var tutorSalvo = em.persist(tutor);
+		return tutorSalvo;
+	}
+	
+	@Test
+	@DisplayName("Deve retorna apenas o tutor informado pelo id")
+	void retornaTutorPeloId() {
+		var tutorSalvo = cadastrarTutor();
+		var tutor = tutorRepository.findById(tutorSalvo.getId());
+		assertThat(tutor.get().getNome()).isEqualTo(tutor.get().getNome());
 	}
 	
 	
 
 }
+
