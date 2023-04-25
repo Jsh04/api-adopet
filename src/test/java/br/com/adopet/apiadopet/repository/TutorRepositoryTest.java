@@ -15,7 +15,7 @@ import br.com.adopet.apiadopet.domain.tutor.DadosCadastroTutor;
 import br.com.adopet.apiadopet.domain.tutor.Tutor;
 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@DataJpaTest
+@DataJpaTest(showSql = true)
 @ActiveProfiles("test")
 class TutorRepositoryTest {
 	
