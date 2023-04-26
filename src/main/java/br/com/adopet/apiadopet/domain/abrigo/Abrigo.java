@@ -49,14 +49,15 @@ public class Abrigo implements UserDetails {
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST,mappedBy = "abrigo")
 	private List<Pet> pets = new ArrayList<>();
  
-	public Abrigo(DadosCadastroAbrigo dados) {
+	public Abrigo(DadosCadastroAbrigo dados, String senhaCriptografada) {
 		this.nome = dados.nome();
 		this.endereco = new Endereco(dados.endereco());
+		this.email = dados.email();
+		this.senha = senhaCriptografada;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return List.of(new SimpleGrantedAuthority("ROLE_ABRIGO"));
 	}
 

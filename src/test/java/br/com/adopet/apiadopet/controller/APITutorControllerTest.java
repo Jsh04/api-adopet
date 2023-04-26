@@ -40,7 +40,7 @@ public class APITutorControllerTest {
 	@Test
 	@DisplayName("Deverá cadastrar um tutor vinda de uma requisicao com o metodo post")
 	public void cadastrarTutor() throws Exception {
-		var cadastro = new DadosCadastroTutor("Jose Barros", "joseBarros@emai.com", "1234");
+		var cadastro = new DadosCadastroTutor("Jose Barros", "joseBarros@emai.com", "1234", null, null, null);
 		var response = mock
 				.perform(
 						MockMvcRequestBuilders

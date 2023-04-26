@@ -34,7 +34,7 @@ class TutorRepositoryTest {
 	}
 	
 	private Tutor cadastrarTutor() {
-		var tutor = new Tutor(new DadosCadastroTutor("Silvio Henrique", "jose@gmail.com", null), "1234");
+		var tutor = new Tutor(new DadosCadastroTutor("Silvio Henrique", "jose@gmail.com", null, null, null, null), "1234");
 		var tutorSalvo = em.persist(tutor);
 		return tutorSalvo;
 	}

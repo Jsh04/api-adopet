@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,9 @@ public class AbrigoController {
 	@Autowired
 	private AbrigoRepository abrigoRepository;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@GetMapping
 	public ResponseEntity<Page<DadosDetalhamentoAbrigo>> listar(@PageableDefault(size = 10) Pageable pageable){
 		var page = abrigoRepository.findAll(pageable);
@@ -53,7 +57,8 @@ public class AbrigoController {
 	@PostMapping
 	@Transactional 
 	public ResponseEntity<DadosDetalhamentoAbrigo> cadastrar(@RequestBody @Valid DadosCadastroAbrigo dados, UriComponentsBuilder uriBuilder) {
-		var abrigo = new Abrigo(dados);
+		var senhaCriptografada = passwordEncoder.encode(dados.senha());
+		var abrigo = new Abrigo(dados, senhaCriptografada);
 		abrigoRepository.save(abrigo);
 		var uri = uriBuilder.path("/pet/{id}").buildAndExpand(abrigo.getId()).toUri();
 		return ResponseEntity.created(uri).body(new DadosDetalhamentoAbrigo(abrigo));
