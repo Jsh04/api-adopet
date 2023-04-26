@@ -6,4 +6,6 @@ import br.com.adopet.apiadopet.domain.abrigo.Abrigo;
 
 public interface AbrigoRepository extends JpaRepository<Abrigo, Long>{
 
+	Abrigo findByEmail(String subject);
+
 }

@@ -53,7 +53,7 @@ public class TokenService {
 	
 	public String pegaSubject(String tokenJWT) {
 		try {
-		    var algoritimo = Algorithm.HMAC256("123456789");
+		    var algoritimo = Algorithm.HMAC256(JWTSecret);
 		    return JWT
 		    		.require(algoritimo)
 		    		.withIssuer("API Adopet")

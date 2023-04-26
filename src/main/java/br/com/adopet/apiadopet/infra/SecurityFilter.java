@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import br.com.adopet.apiadopet.repository.AbrigoRepository;
 import br.com.adopet.apiadopet.repository.TutorRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,6 +24,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 	@Autowired 
 	private TutorRepository tutorRepository;
 	
+	@Autowired
+	private AbrigoRepository abrigoRepository;
+	
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -31,9 +35,16 @@ public class SecurityFilter extends OncePerRequestFilter {
 		
 		if(tokenJWT != null) {
 			var subject = tokenService.pegaSubject(tokenJWT);
+			var abrigo = abrigoRepository.findByEmail(subject);
 			var tutor = tutorRepository.findByEmail(subject);
-			var authentication = new UsernamePasswordAuthenticationToken(tutor, null, tutor.getAuthorities());
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			if(abrigo != null) {
+				var authentication = new UsernamePasswordAuthenticationToken(abrigo, null, abrigo.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}else {
+				var authentication = new UsernamePasswordAuthenticationToken(tutor, null, tutor.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
+			
 		}
 		
 		filterChain.doFilter(request, response);
