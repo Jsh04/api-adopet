@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -17,9 +18,12 @@ import br.com.adopet.apiadopet.domain.tutor.Tutor;
 @Service
 public class TokenService {
 	
+	@Value("${JWT_SECRET}")
+	private String JWTSecret;
+	
 	public String gerarTokenTutor(Tutor tutor){
 		try {
-		    Algorithm algorithm = Algorithm.HMAC256("123456789");
+		    Algorithm algorithm = Algorithm.HMAC256(JWTSecret);
 		    String token = JWT.create()
 		        .withIssuer("API Adopet")
 		        .withSubject(tutor.getUsername())
@@ -34,7 +38,7 @@ public class TokenService {
 	
 	public String gerarTokenAbrigo(Abrigo abrigo){
 		try {
-		    Algorithm algorithm = Algorithm.HMAC256("123456789");
+		    Algorithm algorithm = Algorithm.HMAC256(JWTSecret);
 		    String token = JWT.create()
 		        .withIssuer("API Adopet")
 		        .withSubject(abrigo.getUsername())

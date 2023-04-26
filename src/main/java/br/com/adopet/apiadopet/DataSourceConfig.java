@@ -16,10 +16,13 @@ public class DataSourceConfig {
 	@Value("${DATASOURCE_PASSWORD}")
 	private String passawordDataSource;
 	
+	@Value("${DATASOURCE_USERNAME")
+	private String usernameDataSource;
+	
 	@Bean
 	public DataSource configureDataSource() {
 		return DataSourceBuilder.create().driverClassName("com.mysql.cj.jdbc.Driver")
-				.url("jdbc:mysql://localhost:3306/adopet").username("root").password("1234").build();
+				.url(urlDataSource).username(usernameDataSource).password(passawordDataSource).build();
 	}
 
 }
