@@ -8,7 +8,7 @@ public record DadosCadastroAbrigo(
 		@NotBlank
 		String nome, 
 		
-		@NotEmpty
+		
 		DadosEndereco endereco, 
 		
 		@NotBlank 

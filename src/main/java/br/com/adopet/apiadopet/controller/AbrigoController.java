@@ -60,7 +60,7 @@ public class AbrigoController {
 		var senhaCriptografada = passwordEncoder.encode(dados.senha());
 		var abrigo = new Abrigo(dados, senhaCriptografada);
 		abrigoRepository.save(abrigo);
-		var uri = uriBuilder.path("/pet/{id}").buildAndExpand(abrigo.getId()).toUri();
+		var uri = uriBuilder.path("/abrigo/{id}").buildAndExpand(abrigo.getId()).toUri();
 		return ResponseEntity.created(uri).body(new DadosDetalhamentoAbrigo(abrigo));
 	}
 	
