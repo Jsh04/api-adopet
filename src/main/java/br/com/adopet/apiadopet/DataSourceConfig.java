@@ -16,7 +16,7 @@ public class DataSourceConfig {
 	@Value("${DATASOURCE_PASSWORD}")
 	private String passawordDataSource;
 	
-	@Value("${DATASOURCE_USERNAME")
+	@Value("${DATASOURCE_USERNAME}")
 	private String usernameDataSource;
 	
 	@Bean
